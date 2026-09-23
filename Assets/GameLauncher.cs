@@ -116,28 +116,33 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         
     }
 
-    public void OnInput(NetworkRunner runner, NetworkInput input)
+    private Vector2 _movementInput;
+
+    private void Update()
     {
-        Vector2 direction = Vector2.zero;
+        _movementInput = Vector2.zero;
 
         if (Input.GetKey(KeyCode.W))
-            direction.y += 1;
+            _movementInput.y += 1;
 
         if (Input.GetKey(KeyCode.S))
-            direction.y -= 1;
+            _movementInput.y -= 1;
 
         if (Input.GetKey(KeyCode.A))
-            direction.x -= 1;
+            _movementInput.x -= 1;
 
         if (Input.GetKey(KeyCode.D))
-            direction.x += 1;
+            _movementInput.x += 1;
 
-        direction = direction.normalized;
+        _movementInput = _movementInput.normalized;
+    }
 
+    public void OnInput(NetworkRunner runner, NetworkInput input)
+    {
         input.Set(
             new NetworkInputData
             {
-                Direction = direction
+                Direction = _movementInput
             }
         );
     }
